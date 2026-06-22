@@ -14,4 +14,6 @@ for file in files:
     print(file, "raw:", len(df))
     df = df[df["payment_type"].isin([1, 2])]
     print(file, "after scope:", len(df))
+    df = df[df["fare_amount"] >= 3]
+    print(file, "after fare_amount >= 3:", len(df))
 
