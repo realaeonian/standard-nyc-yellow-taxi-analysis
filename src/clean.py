@@ -16,4 +16,5 @@ for file in files:
     print(file, "after scope:", len(df))
     df = df[df["fare_amount"] >= 3]
     print(file, "after fare_amount >= 3:", len(df))
+    
 
