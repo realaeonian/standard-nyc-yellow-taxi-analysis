@@ -86,3 +86,17 @@ account for some of the negative monetary values; they fall outside the scope
 than in 2025. This is only a preliminary observation on raw, unfiltered data and
 is not a conclusion — it will be properly tested in the analysis stage on cleaned,
 scoped data.
+
+### Scope impact
+
+Applying the scope filter (`payment_type IN (1, 2)`) removes Flex Fare and other
+non-standard payment types before any cleaning:
+
+| File | Raw rows | After scope | Removed | % removed |
+|---|---|---|---|---|
+| 2025-01 | 3,475,226 | 2,834,822 | 640,404 | 18.4% |
+| 2025-02 | 3,577,543 | 2,675,656 | 901,887 | 25.2% |
+| 2025-03 | 4,145,257 | 3,110,013 | 1,035,244 | 25.0% |
+| 2026-01 | 3,724,889 | 2,563,790 | 1,161,099 | 31.2% |
+| 2026-02 | 3,399,866 | 2,325,277 | 1,074,589 | 31.6% |
+| 2026-03 | 3,952,451 | 2,962,371 | 990,080 | 25.1% |
