@@ -30,3 +30,59 @@ This analysis examines **standard trips only**: `payment_type IN (1, 2)`
 (credit card and cash). Flex Fare trips (`payment_type 0`) are excluded as a
 deliberate methodological decision — they use a separate pricing system and are
 not comparable to standard metered trips.
+
+## Exploratory Data Analysis (EDA)
+
+EDA was performed on all six monthly files before any cleaning. The goal at this
+stage was only to understand the data and document problems — no rows were
+removed and no cleaning decisions were made here.
+
+### What was done
+- Loaded each of the six Parquet files (2025-01 to 2025-03, 2026-01 to 2026-03).
+- Compared the schema across all files using `df.info()`.
+- Reviewed value ranges with `df.describe()` (focus on `fare_amount` and
+  `trip_distance`).
+- Counted missing values per column with `df.isnull().sum()`.
+- Examined the `payment_type` distribution with `value_counts(normalize=True)`.
+
+### What was observed
+
+**Schema is consistent across all six files.** All files have the same 20
+columns with identical data types, so combining them later will be safe (no
+type-mismatch issues between months).
+
+**Missing values cluster together.** The same five columns are always null
+together — `passenger_count`, `RatecodeID`, `store_and_fwd_flag`,
+`congestion_surcharge`, and `Airport_fee` — and always with an identical count
+per file. This suggests the gaps come from a specific record type rather than
+random missing data. The scale is significant: roughly 15–30% of rows per file.
+
+**Invalid timestamps exist.** Some files contain pickup dates far outside their
+month — for example, trips dated 2007 and 2008 appear in the March files. Some
+dropoff times also fall slightly outside the file's month. Dates will need to be
+constrained to the actual study period.
+
+**Negative and extreme monetary values.** `fare_amount` and `total_amount` both
+have negative minimums (down to about -2,555) and absurd maximums (e.g.
+`fare_amount` up to ~863,000 in 2025-01). However, the 25th–75th percentiles are
+normal (~8.6–27 USD), so the typical trip looks reasonable while both tails are
+problematic.
+
+**Impossible trip distances.** `trip_distance` has a median of ~1.7–1.8 miles
+across all files, but maximums reach into the hundreds of thousands of miles,
+which is physically impossible. Minimum distance is 0 (zero-distance trips also
+exist).
+
+**payment_type distribution and Flex Fare growth.** Flex Fare trips
+(`payment_type 0`) make up a large and growing share: roughly 15–22% in 2025 and
+24–30% in 2026. This is direct evidence supporting the scope decision to exclude
+them — their share shifted noticeably year over year, so mixing them in could
+create an apparent YoY change unrelated to standard metered trips. Payment types
+3, 4, and 5 (no charge, dispute, unknown) are small (~2–3% combined) and likely
+account for some of the negative monetary values; they fall outside the scope
+(payment_type 1, 2) as well.
+
+**Note on fare medians.** The raw median `fare_amount` appears higher in 2026
+than in 2025. This is only a preliminary observation on raw, unfiltered data and
+is not a conclusion — it will be properly tested in the analysis stage on cleaned,
+scoped data.
