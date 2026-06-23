@@ -100,3 +100,46 @@ non-standard payment types before any cleaning:
 | 2026-01 | 3,724,889 | 2,563,790 | 1,161,099 | 31.2% |
 | 2026-02 | 3,399,866 | 2,325,277 | 1,074,589 | 31.6% |
 | 2026-03 | 3,952,451 | 2,962,371 | 990,080 | 25.1% |
+
+## Cleaning
+
+After scoping to standard trips, the following quality filters were applied. Each
+filter targets a specific problem found during EDA. Two filters from the EDA notes
+were deliberately **not** applied (see below).
+
+Filters are applied in this order: scope (payment_type) → date bounds → duration →
+fare → speed. Definition filters (which trips belong in the study) come first;
+quality filters (removing broken records) come after. `duration_min` and
+`speed_mph` are derived columns, computed before the filters that depend on them.
+
+### Filters applied
+
+| Filter | Rule | Rationale |
+|---|---|---|
+| Scope | `payment_type IN (1, 2)` | Standard metered trips only; Flex Fare uses separate pricing (see Scope) |
+| Date bounds | pickup within the file's month | EDA found pickups dated 2007–2008 and outside the file's month |
+| Minimum duration | `duration_min >= 1` | Trips under one minute are not real rides; also removes negative durations (bad timestamps) |
+| Minimum fare | `fare_amount >= 3` | NYC base fare is $3.00; anything below is invalid (includes negative fares from EDA) |
+| Speed bounds | `1 < speed_mph <= 100` | Removes physically impossible speeds. The lower bound also removes zero-distance trips (speed = 0) and stalled-meter trips where the cab barely moves over many hours |
+
+### Rows removed per filter
+
+Rows remaining after each filter, per file:
+
+| File | Raw | After scope | After dates | After duration | After fare | After speed (final) |
+|---|---|---|---|---|---|---|
+| 2025-01 | 3,475,226 | 2,834,822 | 2,834,800 | 2,809,883 | 2,796,723 | 2,782,410 |
+| 2025-02 | 3,577,543 | 2,675,656 | 2,675,625 | 2,649,958 | 2,637,456 | 2,622,664 |
+| 2025-03 | 4,145,257 | 3,110,013 | 3,109,980 | 3,062,238 | 3,046,245 | 3,031,010 |
+| 2026-01 | 3,724,889 | 2,563,790 | 2,563,785 | 2,493,048 | 2,484,334 | 2,474,157 |
+| 2026-02 | 3,399,866 | 2,325,277 | 2,325,261 | 2,262,134 | 2,255,818 | 2,246,117 |
+| 2026-03 | 3,952,451 | 2,962,371 | 2,962,352 | 2,883,854 | 2,878,623 | 2,867,760 |
+
+### Deliberately not applied
+
+- **`RatecodeID = 99` (unknown rate code):** ~41k rows, but `describe()` showed
+  these are real trips (median ~6.7 miles, ~$31 fare). The speed filter already
+  catches the genuinely broken ones, so dropping all of them would discard valid data.
+- **`total_amount < trip_distance`:** compares dollars to miles — two different
+  units — and would cut legitimate negotiated and out-of-city trips (RatecodeID
+  4 and 5), where a fixed or negotiated price can be lower than the mileage number.
