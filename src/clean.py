@@ -12,6 +12,7 @@ files = [
 
 def clean_df(df, year, month):
     label = f"{year}-{month:02d}"
+    full = len(df)
     print(label, "raw:", len(df))
     df = df[df["payment_type"].isin([1, 2])]
     print(label, "after scope:", len(df))
@@ -25,6 +26,7 @@ def clean_df(df, year, month):
     df["speed_mph"] = df["trip_distance"] / (df["duration_min"] / 60)
     df = df[(df["speed_mph"] > 1) & (df["speed_mph"] <= 100)]
     print(label, "after speed:", len(df))
+    print(label, "kept:", round(len(df)/full*100, 1), "%")
     return df
         
 
