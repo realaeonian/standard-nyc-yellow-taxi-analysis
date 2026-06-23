@@ -27,6 +27,15 @@ def clean_df(df, year, month):
     df = df[(df["speed_mph"] > 1) & (df["speed_mph"] <= 100)]
     print(label, "after speed:", len(df))
     print(label, "kept:", round(len(df)/full*100, 1), "%")
+    
+    keep_cols = [
+    "tpep_pickup_datetime", "tpep_dropoff_datetime",
+    "payment_type", "fare_amount", "total_amount",
+    "trip_distance", "tip_amount", "tolls_amount",
+    "duration_min", "speed_mph",
+    "PULocationID", "DOLocationID",
+]
+    df = df[keep_cols]
     return df
         
 
