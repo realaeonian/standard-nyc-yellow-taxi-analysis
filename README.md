@@ -104,8 +104,8 @@ non-standard payment types before any cleaning:
 ## Cleaning
 
 After scoping to standard trips, the following quality filters were applied. Each
-filter targets a specific problem found during EDA. Two filters from the EDA notes
-were deliberately **not** applied (see below).
+filter targets a specific problem found during EDA. One filter considered during
+EDA was deliberately **not** applied (see below).
 
 Filters are applied in this order: scope (payment_type) → date bounds → duration →
 fare → speed. Definition filters (which trips belong in the study) come first;
@@ -119,7 +119,7 @@ quality filters (removing broken records) come after. `duration_min` and
 | Scope | `payment_type IN (1, 2)` | Standard metered trips only; Flex Fare uses separate pricing (see Scope) |
 | Date bounds | pickup within the file's month | EDA found pickups dated 2007–2008 and outside the file's month |
 | Minimum duration | `duration_min >= 1` | Trips under one minute are not real rides; also removes negative durations (bad timestamps) |
-| Minimum fare | `fare_amount >= 3` | NYC base fare is $3.00; anything below is invalid (includes negative fares from EDA) |
+| Minimum fare | `fare_amount >= 3` | NYC base fare is $3.00 (includes negative fares from EDA) |
 | Speed bounds | `1 < speed_mph <= 100` | Removes physically impossible speeds. The lower bound also removes zero-distance trips (speed = 0) and stalled-meter trips where the cab barely moves over many hours |
 
 ### Rows removed per filter
@@ -140,6 +140,3 @@ Rows remaining after each filter, per file:
 - **`RatecodeID = 99` (unknown rate code):** ~41k rows, but `describe()` showed
   these are real trips (median ~6.7 miles, ~$31 fare). The speed filter already
   catches the genuinely broken ones, so dropping all of them would discard valid data.
-- **`total_amount < trip_distance`:** compares dollars to miles — two different
-  units — and would cut legitimate negotiated and out-of-city trips (RatecodeID
-  4 and 5), where a fixed or negotiated price can be lower than the mileage number.
