@@ -245,3 +245,33 @@ share fell from 22.84% to 21.19% (−1.65pp). As fares rose (Q3), riders left a
 smaller proportion as tip — tips likely grew in dollar terms but shrank relative to
 the (higher) fare, a common pattern when prices increase.
 
+### Q8a — Trip volume by hour of day
+
+Trips per hour as a share of each year's total (share neutralizes the ~10% overall
+volume decline, so the *shape* is comparable).
+
+| | 2025 | 2026 |
+|---|---|---|
+| Peak hour | 18:00 (7.30%) | 18:00 (7.24%) |
+| Quietest hour | 04:00 (0.46%) | 04:00 (0.50%) |
+
+The hourly demand profile is essentially unchanged year over year — the evening peak
+holds at 18:00, the overnight low at ~04:00, and the two curves nearly overlap. The
+only subtle shift: late-evening trips (22:00–23:00) softened slightly while early
+morning (07:00) firmed up a touch, but these are fractions of a percentage point.
+Full hourly data is visualized in the Power BI dashboard.
+
+### Q8b — Weekday vs weekend volume
+
+| Year | Weekday | Weekend | Weekday % |
+|---|---|---|---|
+| 2025 | 6,099,951 | 2,336,133 | 72.31% |
+| 2026 | 5,591,715 | 1,996,319 | 73.69% |
+
+The decline was not evenly spread across the week. Weekend trips fell 14.5% year
+over year, while weekday trips fell only 8.3% — so the weekend share dropped from
+27.7% to 26.3%. The overall 10% volume decline (Q1) masks a sharper pullback in
+weekend demand. (Share figures should be read with mild caution, since Q1 does not
+contain a perfectly even count of weekend vs weekday days, but the absolute YoY
+declines compare like-for-like periods.)
+
