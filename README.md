@@ -216,3 +216,18 @@ the higher per-trip fares come from longer trips rather than a more expensive
 service per mile — the rate held, but the typical trip covered more ground. Q6
 tests this directly via distance.
 
+### Q6 — Distance, duration, speed (average and median)
+
+| Year | Avg dist | Med dist | Avg dur | Med dur | Avg speed | Med speed |
+|---|---|---|---|---|---|---|
+| 2025 | 3.20 | 1.66 | 15.12 | 11.68 | 11.11 | 9.45 |
+| 2026 | 3.44 | 1.70 | 17.34 | 12.75 | 10.61 | 8.95 |
+
+Distance rose only slightly (median +2.4%), but duration rose much more (median
++9.2%), so speed fell (median −5.3%). The typical trip covers about the same ground
+but takes noticeably longer — consistent with worsening traffic. Average and median
+move the same direction, so the slowdown is real, not a tail artifact. This also
+completes Q5: since fare per mile was flat and distance barely grew, the higher
+per-trip fares are driven largely by longer trip times (the fare's time component),
+not by longer distances or a higher per-mile rate.
+
