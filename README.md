@@ -188,3 +188,17 @@ genuine price rise for the typical trip — not just a few expensive outliers pu
 the average up. The average rising slightly faster than the median suggests the
 high-fare tail grew a bit more, but the core of the distribution shifted up too.
 
+### Q4 — Revenue and what drove it
+
+Revenue excludes tips (which go to the driver, not the operator).
+
+| Year | Trips | Revenue | Revenue per trip |
+|---|---|---|---|
+| 2025 | 8,436,084 | $203.3M | $24.10 |
+| 2026 | 7,588,034 | $192.6M | $25.39 |
+
+Trips fell 10.0%, but revenue fell only 5.2% — because revenue per trip rose 5.4%.
+The price increase offset roughly half the volume decline: operators ran 10% fewer
+trips but lost only ~5% of revenue. The change is driven by both forces pulling in
+opposite directions, with price partially cushioning the drop in volume.
+
