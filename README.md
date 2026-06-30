@@ -164,3 +164,14 @@ All comparisons are Q1 2025 vs Q1 2026, standard trips only.
 Standard trips fell ~10% year over year. Since Flex Fare's share grew over the
 same period (see Scope), part of this decline may reflect a shift toward Flex
 Fare rather than an overall drop in demand.
+
+### Q2 — Payment split
+
+| Year | Card | Cash | Card % |
+|---|---|---|---|
+| 2025 | 7,383,431 | 1,052,653 | 87.5% |
+| 2026 | 6,717,918 | 870,116 | 88.5% |
+
+The card share rose slightly, from 87.5% to 88.5%. Both card and cash trip counts
+fell year over year (overall volume declined, see Q1), but cash fell proportionally
+more (−17% vs −9% for card), shifting the mix further toward card payment.
