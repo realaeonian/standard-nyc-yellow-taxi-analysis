@@ -148,3 +148,19 @@ filters remove a similar small share in both years.
 ## Validation
 
 After loading, the data was validated with SQL checks (sql/validation.sql): no NULLs in any kept column, all cleaning filters held (no rows violating fare, duration, speed, or payment_type rules), dropoff always after pickup, pickup dates within the study period, and total row count matching the load output (16,024,118). All checks passed.
+
+## Analysis
+
+Each question is answered by a SQL query in `sql/` (one file per question).
+All comparisons are Q1 2025 vs Q1 2026, standard trips only.
+
+### Q1 — Trip volume
+
+| Year | Trips |
+|---|---|
+| 2025 | 8,436,084 |
+| 2026 | 7,588,034 |
+
+Standard trips fell ~10% year over year. Since Flex Fare's share grew over the
+same period (see Scope), part of this decline may reflect a shift toward Flex
+Fare rather than an overall drop in demand.
