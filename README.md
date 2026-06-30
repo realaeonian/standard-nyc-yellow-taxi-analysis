@@ -144,3 +144,7 @@ filters remove a similar small share in both years.
 - **`RatecodeID = 99` (unknown rate code):** ~41k rows, but `describe()` showed
   these are real trips (median ~6.7 miles, ~$31 fare). The speed filter already
   catches the genuinely broken ones, so dropping all of them would discard valid data.
+
+## Validation
+
+After loading, the data was validated with SQL checks (sql/validation.sql): no NULLs in any kept column, all cleaning filters held (no rows violating fare, duration, speed, or payment_type rules), dropoff always after pickup, pickup dates within the study period, and total row count matching the load output (16,024,118). All checks passed.
