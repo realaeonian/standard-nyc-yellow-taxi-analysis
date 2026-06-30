@@ -11,7 +11,7 @@ quarter (January–March) of 2025 against the same period in 2026.
 4. How did total revenue change, and was it driven by volume or price?
 5. How did fare per mile change?
 6. How did distance, duration and speed change — and what does that say about traffic?
-7. Did the tip percentage relative to fare change? (card trips only)
+7. How did the tip-to-fare ratio change? (card trips only)
 8. How did trip volume change by time of day and weekday vs weekend?
 9. Which pickup/dropoff zones were most popular, and did the ranking shift?
 
