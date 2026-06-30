@@ -176,3 +176,15 @@ The card share rose slightly, from 87.5% to 88.5%. Both card and cash trip count
 fell year over year (overall volume declined, see Q1), but cash fell proportionally
 more (−17% vs −9% for card), shifting the mix further toward card payment.
 
+### Q3 — Fare per trip (average and median)
+
+| Year | Avg fare | Median fare |
+|---|---|---|
+| 2025 | $18.09 | $12.80 |
+| 2026 | $19.47 | $13.50 |
+
+Both the average (+7.6%) and median (+5.5%) fare rose, so the increase reflects a
+genuine price rise for the typical trip — not just a few expensive outliers pulling
+the average up. The average rising slightly faster than the median suggests the
+high-fare tail grew a bit more, but the core of the distribution shifted up too.
+
