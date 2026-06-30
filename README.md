@@ -231,3 +231,17 @@ completes Q5: since fare per mile was flat and distance barely grew, the higher
 per-trip fares are driven largely by longer trip times (the fare's time component),
 not by longer distances or a higher per-mile rate.
 
+### Q7 — Tip as a share of fare (card trips only)
+
+| Year | Tip % of fare |
+|---|---|
+| 2025 | 22.84% |
+| 2026 | 21.19% |
+
+Computed as SUM(tip) / SUM(fare) over card trips only (payment_type = 1), since cash
+tips are barely recorded in the data — a data limitation, not a choice. Zero-tip
+trips are included, so this reflects the average across all card trips. The tip
+share fell from 22.84% to 21.19% (−1.65pp). As fares rose (Q3), riders left a
+smaller proportion as tip — tips likely grew in dollar terms but shrank relative to
+the (higher) fare, a common pattern when prices increase.
+
