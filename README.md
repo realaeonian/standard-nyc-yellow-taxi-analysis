@@ -202,3 +202,17 @@ The price increase offset roughly half the volume decline: operators ran 10% few
 trips but lost only ~5% of revenue. The change is driven by both forces pulling in
 opposite directions, with price partially cushioning the drop in volume.
 
+### Q5 — Fare per mile
+
+| Year | Fare per mile |
+|---|---|
+| 2025 | $5.65 |
+| 2026 | $5.67 |
+
+Computed as SUM(fare) / SUM(distance) — a distance-weighted rate that avoids the
+distortion of very short trips (where fare/distance explodes). Fare per mile was
+essentially flat (+0.4%). Combined with Q3 (fare per trip up ~5–7%), this suggests
+the higher per-trip fares come from longer trips rather than a more expensive
+service per mile — the rate held, but the typical trip covered more ground. Q6
+tests this directly via distance.
+
