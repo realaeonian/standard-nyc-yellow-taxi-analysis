@@ -275,3 +275,26 @@ weekend demand. (Share figures should be read with mild caution, since Q1 does n
 contain a perfectly even count of weekend vs weekday days, but the absolute YoY
 declines compare like-for-like periods.)
 
+### Q9 — Top pickup zones
+
+Top 10 pickup zones by trips, with each zone's share of that year's total.
+
+| Rank | 2025 | Share | 2026 | Share |
+|---|---|---|---|---|
+| 1 | Upper East Side South | 5.15% | Upper East Side South | 5.36% |
+| 2 | Midtown Center | 5.14% | JFK Airport ▲ | 5.12% |
+| 3 | Upper East Side North | 4.65% | Upper East Side North | 4.78% |
+| 4 | JFK Airport | 4.42% | Midtown Center ▼ | 4.72% |
+| 5 | Penn Station/Madison Sq West | 3.81% | Penn Station/Madison Sq West | 3.71% |
+| 6 | Midtown East | 3.72% | Midtown East | 3.63% |
+| 7 | Times Sq/Theatre District | 3.67% | Lincoln Square East ▲ | 3.32% |
+| 8 | Lincoln Square East | 3.34% | Times Sq/Theatre District ▼ | 3.19% |
+| 9 | LaGuardia Airport | 3.13% | LaGuardia Airport | 3.18% |
+| 10 | Midtown North | 3.01% | Midtown North | 2.84% |
+
+The same zones lead in both years. The big change: JFK Airport moved from 4th to
+2nd, and was the only top-10 zone with more trips than the year before (373k → 389k)
+even though total trips fell 10%. Airport trips stayed strong while city trips
+dropped. This fits the other findings — airport trips are longer and cost more,
+which helped revenue (Q4) and pushed up the average fare (Q3).
+
