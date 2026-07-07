@@ -277,20 +277,19 @@ declines compare like-for-like periods.)
 
 ### Q9 — Top pickup zones
 
-Top 10 pickup zones by trips, with each zone's share of that year's total.
+| Trips | Share |
+|---|---|---|---|---|---|---|
+| 1 | Upper East Side South | 434,048 | 5.15% | Upper East Side South | 406,677 | 5.36% |
+| 2 | Midtown Center | 433,281 | 5.14% | JFK Airport ▲ | 388,719 | 5.12% |
+| 3 | Upper East Side North | 392,341 | 4.65% | Upper East Side North | 362,960 | 4.78% |
+| 4 | JFK Airport | 373,146 | 4.42% | Midtown Center ▼ | 358,424 | 4.72% |
+| 5 | Penn Station/Madison Sq West | 321,296 | 3.81% | Penn Station/Madison Sq West | 281,304 | 3.71% |
+| 6 | Midtown East | 313,527 | 3.72% | Midtown East | 275,522 | 3.63% |
+| 7 | Times Sq/Theatre District | 309,853 | 3.67% | Lincoln Square East ▲ | 251,798 | 3.32% |
+| 8 | Lincoln Square East | 281,635 | 3.34% | Times Sq/Theatre District ▼ | 241,782 | 3.19% |
+| 9 | LaGuardia Airport | 264,219 | 3.13% | LaGuardia Airport | 241,075 | 3.18% |
+| 10 | Midtown North | 254,340 | 3.01% | Midtown North | 215,309 | 2.84% |
 
-| Rank | 2025 | Share | 2026 | Share |
-|---|---|---|---|---|
-| 1 | Upper East Side South | 5.15% | Upper East Side South | 5.36% |
-| 2 | Midtown Center | 5.14% | JFK Airport ▲ | 5.12% |
-| 3 | Upper East Side North | 4.65% | Upper East Side North | 4.78% |
-| 4 | JFK Airport | 4.42% | Midtown Center ▼ | 4.72% |
-| 5 | Penn Station/Madison Sq West | 3.81% | Penn Station/Madison Sq West | 3.71% |
-| 6 | Midtown East | 3.72% | Midtown East | 3.63% |
-| 7 | Times Sq/Theatre District | 3.67% | Lincoln Square East ▲ | 3.32% |
-| 8 | Lincoln Square East | 3.34% | Times Sq/Theatre District ▼ | 3.19% |
-| 9 | LaGuardia Airport | 3.13% | LaGuardia Airport | 3.18% |
-| 10 | Midtown North | 3.01% | Midtown North | 2.84% |
 
 The same zones lead in both years. The big change: JFK Airport moved from 4th to
 2nd, and was the only top-10 zone with more trips than the year before (373k → 389k)
