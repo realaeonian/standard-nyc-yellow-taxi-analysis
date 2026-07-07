@@ -292,6 +292,7 @@ Top 10 pickup zones by trips, with each zone's share of that year's total.
 | 9 | LaGuardia Airport | 264,219 | 3.13% | LaGuardia Airport | 241,075 | 3.18% |
 | 10 | Midtown North | 254,340 | 3.01% | Midtown North | 215,309 | 2.84% |
 
+
 The same zones lead in both years. The big change: JFK Airport moved from 4th to
 2nd, and was the only top-10 zone with more trips than the year before (373k → 389k)
 even though total trips fell 10%. Airport trips stayed strong while city trips
