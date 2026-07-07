@@ -277,7 +277,9 @@ declines compare like-for-like periods.)
 
 ### Q9 — Top pickup zones
 
-| Trips | Share |
+Top 10 pickup zones by trips, with each zone's share of that year's total.
+
+| Rank | 2025 | Trips | Share | 2026 | Trips | Share |
 |---|---|---|---|---|---|---|
 | 1 | Upper East Side South | 434,048 | 5.15% | Upper East Side South | 406,677 | 5.36% |
 | 2 | Midtown Center | 433,281 | 5.14% | JFK Airport ▲ | 388,719 | 5.12% |
@@ -289,7 +291,6 @@ declines compare like-for-like periods.)
 | 8 | Lincoln Square East | 281,635 | 3.34% | Times Sq/Theatre District ▼ | 241,782 | 3.19% |
 | 9 | LaGuardia Airport | 264,219 | 3.13% | LaGuardia Airport | 241,075 | 3.18% |
 | 10 | Midtown North | 254,340 | 3.01% | Midtown North | 215,309 | 2.84% |
-
 
 The same zones lead in both years. The big change: JFK Airport moved from 4th to
 2nd, and was the only top-10 zone with more trips than the year before (373k → 389k)
