@@ -299,3 +299,102 @@ even though total trips fell 10%. Airport trips stayed strong while city trips
 dropped. This fits the other findings — airport trips are longer and cost more,
 which helped revenue (Q4) and pushed up the average fare (Q3).
 
+## Dashboard (Power BI)
+
+An interactive Power BI dashboard visualizes the analysis. Static pages are shown as
+images; interactive features (slicers, cross-filtering, map drill-down) are shown as GIFs.
+
+### Overview
+![Overview KPIs](images/01_overview.png)
+
+Trips fell 10% year over year, but revenue fell only 5% — because average fare rose
+7.6%. The price increase cushioned the drop in volume.
+
+### Pricing
+![Pricing](images/02_pricing.png)
+
+Average fare sits well above the median in both years, showing a right-skewed
+distribution — a few expensive trips (airport, long-haul) pull the average up while
+the typical trip stays near $13.
+
+### Traffic
+![Traffic](images/03_traffic.gif)
+
+Distance rose slightly and duration rose more, so speed fell — consistent with
+worsening traffic. Slicers allow filtering by month and day of week.
+
+### Time patterns
+![Hourly demand](images/04_time_hourly.gif)
+
+The hourly demand curve is stable year over year, peaking around 18:00. Filterable
+by day of week.
+
+### Zones
+![Top zones](images/05_zones_top10.gif)
+![Zone map](images/06_zones_map.gif)
+
+JFK Airport rose from 4th to 2nd busiest pickup zone. The map shows trip flow —
+selecting a pickup zone highlights where those trips ended.
+
+## Conclusion
+
+Standard NYC Yellow Taxi trips declined year over year, but revenue declined less
+than volume.
+
+Trip volume fell 10.0% (8.44M to 7.59M), while revenue fell 5.2% ($203.3M to
+$192.6M). The difference is explained by revenue per trip, which rose 5.4% ($24.10
+to $25.39). The price increase offset about half of the volume decline.
+
+The higher per-trip fare did not come from a higher per-mile rate. Fare per mile was
+flat (+0.4%), while average trip duration rose 14.7% and average distance rose only
+7.5%. Average speed fell 4.4% (11.11 to 10.61 mph). Trips covered similar distances
+but took longer, which is consistent with increased traffic. So the per-trip fare
+rose mainly because trips took more time, not because the rate per mile changed.
+
+The decline was uneven across the week. Weekend trips fell 14.5% against 8.3% for
+weekdays, lowering the weekend share from 27.7% to 26.3%. The hourly demand profile
+was unchanged, peaking at 18:00 in both years.
+
+Airport demand held up against the overall decline. JFK Airport rose from the 4th to
+the 2nd busiest pickup zone and was the only top-10 zone to grow in absolute terms
+(373k to 389k trips). These longer, higher-fare airport trips contributed to both
+the revenue and the average fare figures above.
+
+Tip as a share of fare fell from 22.84% to 21.19%. Tips likely rose in absolute
+dollars but fell as a share of the higher fare.
+
+## Assumptions & Limitations
+
+- Only standard trips are included (`payment_type IN (1, 2)`). Flex Fare is
+  excluded, so this is not total taxi activity. Flex Fare's share grew, so part of
+  the trip decline may be a shift to Flex Fare rather than lost demand.
+- "Q1" means January–March. The two periods do not have the same number of weekend
+  and weekday days, so weekday/weekend shares should be read with some caution.
+- Revenue excludes tips, since tips go to the driver, not the operator.
+- Tips are analyzed on card trips only, because cash tips are barely recorded.
+- Median values in the dashboard are fixed numbers calculated in SQL, because Power
+  BI cannot run `MEDIAN` on 16M rows. The medians are exact SQL results.
+- Cleaning limits (fare ≥ $3, 1 < speed ≤ 100 mph, duration ≥ 1 min) are based on
+  physical and regulatory limits.
+
+## How to Run
+
+1. Install dependencies:
+```bash
+   pip install -r requirements.txt
+```
+2. Download the data from the TLC site (six Yellow Taxi Parquet files: 2025-01 to
+   2025-03 and 2026-01 to 2026-03, plus the taxi zone lookup CSV) into a `data/`
+   folder.
+3. Create a PostgreSQL database called `nyc_taxi`. Copy `.env.example` to `.env` and
+   add your connection details.
+4. Clean and load the data:
+```bash
+   python src/clean.py
+   python src/load_to_db.py
+```
+5. Run `sql/validation.sql` to check the loaded data (all checks return 0).
+6. Run the query files in `sql/` (one per research question).
+7. The Power BI dashboard connects to the local `nyc_taxi` database. See the
+   Dashboard section above for screenshots and demos.
+
