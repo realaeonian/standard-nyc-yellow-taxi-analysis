@@ -27,9 +27,8 @@ This analysis uses six monthly Yellow Taxi files (2025-01 to 2025-03 and
 ### Scope
 
 This analysis examines **standard trips only**: `payment_type IN (1, 2)`
-(credit card and cash). Flex Fare trips (`payment_type 0`) are excluded as a
-deliberate methodological decision — they use a separate pricing system and are
-not comparable to standard metered trips.
+(credit card and cash). Flex Fare trips (`payment_type 0`) are excluded on purpose — they use a
+different pricing system, so they cannot be compared with standard metered trips.
 
 ## Exploratory Data Analysis (EDA)
 
@@ -54,8 +53,8 @@ type-mismatch issues between months).
 **Missing values cluster together.** The same five columns are always null
 together — `passenger_count`, `RatecodeID`, `store_and_fwd_flag`,
 `congestion_surcharge`, and `Airport_fee` — and always with an identical count
-per file. This suggests the gaps come from a specific record type rather than
-random missing data. The scale is significant: roughly 15–30% of rows per file.
+per file. This looks like the gaps come from one specific type of record,
+not random missing data. It affects about 15–30% of rows per file.
 
 **Invalid timestamps exist.** Some files contain pickup dates far outside their
 month — for example, trips dated 2007 and 2008 appear in the March files. Some
@@ -64,9 +63,8 @@ constrained to the actual study period.
 
 **Negative and extreme monetary values.** `fare_amount` and `total_amount` both
 have negative minimums (down to about -2,555) and absurd maximums (e.g.
-`fare_amount` up to ~863,000 in 2025-01). However, the 25th–75th percentiles are
-normal (~8.6–27 USD), so the typical trip looks reasonable while both tails are
-problematic.
+`fare_amount` up to ~863,000 in 2025-01). But the middle of the data is normal
+(~8.6–27 USD), so the typical trip looks fine — only the extremes are broken.
 
 **Impossible trip distances.** `trip_distance` has a median of ~1.7–1.8 miles
 across all files, but maximums reach into the hundreds of thousands of miles,
@@ -75,17 +73,16 @@ exist).
 
 **payment_type distribution and Flex Fare growth.** Flex Fare trips
 (`payment_type 0`) make up a large and growing share: roughly 15–22% in 2025 and
-24–30% in 2026. This is direct evidence supporting the scope decision to exclude
-them — their share shifted noticeably year over year, so mixing them in could
-create an apparent YoY change unrelated to standard metered trips. Payment types
+24–30% in 2026. This supports the decision to exclude them: their share
+changed a lot between the two years, so including them could create a fake
+year-over-year change that has nothing to do with standard trips. Payment types
 3, 4, and 5 (no charge, dispute, unknown) are small (~2–3% combined) and likely
 account for some of the negative monetary values; they fall outside the scope
 (payment_type 1, 2) as well.
 
 **Note on fare medians.** The raw median `fare_amount` appears higher in 2026
-than in 2025. This is only a preliminary observation on raw, unfiltered data and
-is not a conclusion — it will be properly tested in the analysis stage on cleaned,
-scoped data.
+than in 2025. This is only a first look at raw, unfiltered data, not a
+conclusion — it is properly checked later on cleaned data.
 
 ### Scope impact
 
@@ -108,9 +105,9 @@ filter targets a specific problem found during EDA. One filter considered during
 EDA was deliberately **not** applied (see below).
 
 Filters are applied in this order: scope (payment_type) → date bounds → duration →
-fare → speed. Definition filters (which trips belong in the study) come first;
-quality filters (removing broken records) come after. `duration_min` and
-`speed_mph` are derived columns, computed before the filters that depend on them.
+fare → speed. First come the filters that decide which trips belong in the study
+(payment type, dates), then the ones that remove broken records. `duration_min` and
+`speed_mph` are calculated first, because the filters need them.
 
 ### Filters applied
 
@@ -135,15 +132,15 @@ Rows remaining after each filter, per file:
 | 2026-02 | 3,399,866 | 2,325,277 | 2,325,261 | 2,262,134 | 2,255,818 | 2,246,117 | 66.1% |
 | 2026-03 | 3,952,451 | 2,962,371 | 2,962,352 | 2,883,854 | 2,878,623 | 2,867,760 | 72.6% |
 
-Lower retention in 2026 is driven almost entirely by the scope filter (the growing
-Flex Fare share removed before any cleaning), not by quality issues — the quality
+2026 keeps fewer rows almost entirely because of the scope filter (the growing Flex
+Fare share, removed before any cleaning), not because of data quality — the quality
 filters remove a similar small share in both years.
 
 ### Deliberately not applied
 
 - **`RatecodeID = 99` (unknown rate code):** ~41k rows, but `describe()` showed
   these are real trips (median ~6.7 miles, ~$31 fare). The speed filter already
-  catches the genuinely broken ones, so dropping all of them would discard valid data.
+  removes the truly broken ones, so dropping all of them would throw away good data.
 
 ## Validation
 
@@ -183,10 +180,10 @@ more (−17% vs −9% for card), shifting the mix further toward card payment.
 | 2025 | $18.09 | $12.80 |
 | 2026 | $19.47 | $13.50 |
 
-Both the average (+7.6%) and median (+5.5%) fare rose, so the increase reflects a
-genuine price rise for the typical trip — not just a few expensive outliers pulling
-the average up. The average rising slightly faster than the median suggests the
-high-fare tail grew a bit more, but the core of the distribution shifted up too.
+Both the average (+7.6%) and median (+5.5%) fare rose, so the typical trip really
+did get more expensive — it is not just a few expensive trips pulling the average
+up. The average rose a bit faster than the median, which means expensive trips grew
+slightly more, but normal trips got pricier too.
 
 ### Q4 — Revenue and what drove it
 
@@ -198,9 +195,9 @@ Revenue excludes tips (which go to the driver, not the operator).
 | 2026 | 7,588,034 | $192.6M | $25.39 |
 
 Trips fell 10.0%, but revenue fell only 5.2% — because revenue per trip rose 5.4%.
-The price increase offset roughly half the volume decline: operators ran 10% fewer
-trips but lost only ~5% of revenue. The change is driven by both forces pulling in
-opposite directions, with price partially cushioning the drop in volume.
+Operators ran 10% fewer trips but lost only ~5% of revenue. Fewer trips pushed
+revenue down while higher prices pushed it up, and the higher prices covered about
+half of the loss.
 
 ### Q5 — Fare per mile
 
@@ -209,12 +206,11 @@ opposite directions, with price partially cushioning the drop in volume.
 | 2025 | $5.65 |
 | 2026 | $5.67 |
 
-Computed as SUM(fare) / SUM(distance) — a distance-weighted rate that avoids the
-distortion of very short trips (where fare/distance explodes). Fare per mile was
-essentially flat (+0.4%). Combined with Q3 (fare per trip up ~5–7%), this suggests
-the higher per-trip fares come from longer trips rather than a more expensive
-service per mile — the rate held, but the typical trip covered more ground. Q6
-tests this directly via distance.
+Computed as SUM(fare) / SUM(distance). This way longer trips count more, which
+avoids the problem of very short trips (where fare per mile becomes huge). Fare per
+mile was basically flat (+0.4%). Together with Q3 (fare per trip up ~5–7%), this
+means the higher fares come from longer trips, not from a higher price per mile.
+Q6 checks this directly.
 
 ### Q6 — Distance, duration, speed (average and median)
 
@@ -224,12 +220,11 @@ tests this directly via distance.
 | 2026 | 3.44 | 1.70 | 17.34 | 12.75 | 10.61 | 8.95 |
 
 Distance rose only slightly (median +2.4%), but duration rose much more (median
-+9.2%), so speed fell (median −5.3%). The typical trip covers about the same ground
-but takes noticeably longer — consistent with worsening traffic. Average and median
-move the same direction, so the slowdown is real, not a tail artifact. This also
-completes Q5: since fare per mile was flat and distance barely grew, the higher
-per-trip fares are driven largely by longer trip times (the fare's time component),
-not by longer distances or a higher per-mile rate.
++9.2%), so speed fell (median −5.3%). The typical trip covers about the same
+distance but takes noticeably longer, which points to worse traffic. Both the
+average and the median moved the same way, so the slowdown is real and not caused
+by a few odd trips. This also answers Q5: since the price per mile stayed flat and
+distance barely grew, fares went up mainly because trips took longer.
 
 ### Q7 — Tip as a share of fare (card trips only)
 
@@ -238,28 +233,27 @@ not by longer distances or a higher per-mile rate.
 | 2025 | 22.84% |
 | 2026 | 21.19% |
 
-Computed as SUM(tip) / SUM(fare) over card trips only (payment_type = 1), since cash
-tips are barely recorded in the data — a data limitation, not a choice. Zero-tip
-trips are included, so this reflects the average across all card trips. The tip
-share fell from 22.84% to 21.19% (−1.65pp). As fares rose (Q3), riders left a
-smaller proportion as tip — tips likely grew in dollar terms but shrank relative to
-the (higher) fare, a common pattern when prices increase.
+Computed as SUM(tip) / SUM(fare) over card trips only (payment_type = 1), because
+cash tips are barely recorded in the data — that is a limit of the data, not a
+choice. Trips with no tip are included, so this is the average across all card
+trips. The tip share fell from 22.84% to 21.19% (−1.65pp). As fares rose (Q3),
+riders tipped a smaller share. Tips probably grew in dollars but shrank compared to
+the higher fare, which often happens when prices go up.
 
 ### Q8a — Trip volume by hour of day
 
-Trips per hour as a share of each year's total (share neutralizes the ~10% overall
-volume decline, so the *shape* is comparable).
+Trips per hour as a share of each year's total (using shares removes the ~10%
+overall drop, so the shape of the day can be compared).
 
 | | 2025 | 2026 |
 |---|---|---|
 | Peak hour | 18:00 (7.30%) | 18:00 (7.24%) |
 | Quietest hour | 04:00 (0.46%) | 04:00 (0.50%) |
 
-The hourly demand profile is essentially unchanged year over year — the evening peak
-holds at 18:00, the overnight low at ~04:00, and the two curves nearly overlap. The
-only subtle shift: late-evening trips (22:00–23:00) softened slightly while early
-morning (07:00) firmed up a touch, but these are fractions of a percentage point.
-Full hourly data is visualized in the Power BI dashboard.
+The daily pattern barely changed — the evening peak stays at 18:00, the quietest
+time at ~04:00, and the two lines almost overlap. One small shift: late evening
+(22:00–23:00) dropped a little while early morning (07:00) rose a little, but these
+are fractions of a percent. Full hourly data is shown in the Power BI dashboard.
 
 ### Q8b — Weekday vs weekend volume
 
@@ -270,10 +264,10 @@ Full hourly data is visualized in the Power BI dashboard.
 
 The decline was not evenly spread across the week. Weekend trips fell 14.5% year
 over year, while weekday trips fell only 8.3% — so the weekend share dropped from
-27.7% to 26.3%. The overall 10% volume decline (Q1) masks a sharper pullback in
-weekend demand. (Share figures should be read with mild caution, since Q1 does not
-contain a perfectly even count of weekend vs weekday days, but the absolute YoY
-declines compare like-for-like periods.)
+27.7% to 26.3%. The overall 10% drop (Q1) hides a much bigger drop on
+weekends. (Read the shares with some caution: January–March does not have an even
+number of weekend and weekday days. The year-over-year drops compare the same
+periods, so those are reliable.)
 
 ### Q9 — Top pickup zones
 
@@ -362,6 +356,37 @@ the revenue and the average fare figures above.
 
 Tip as a share of fare fell from 22.84% to 21.19%. Tips likely rose in absolute
 dollars but fell as a share of the higher fare.
+
+## Business Implications & Next Steps
+
+### Weekend decline needs a closer look
+
+Weekend trips fell 14.5%, while weekday trips fell only 8.3%. There are two
+possible reasons: riders moved to Flex Fare, which is not part of this analysis
+(see Scope) but grew over the same period, or fewer people wanted a taxi on
+weekends. This data cannot tell which one it is — looking at Flex Fare trips by
+day type would answer it.
+
+### Airport routes held up best
+
+JFK Airport was the only top-10 pickup zone that grew (373k to 389k trips), while
+overall trips fell 10%. Airport trips are longer and cost more, so each one brings
+in more money. If drivers have to be sent somewhere first, airport routes look like
+the safer choice. This data does not show if airport demand actually grew or just
+stayed flat while city trips dropped — airport passenger numbers would show that.
+
+### Slower traffic
+
+Trips took 14.7% longer while distance only rose 7.5%, so average speed dropped
+4.4%. Each trip takes more time, so a driver finishes fewer trips per shift. Fares went
+up, but that may not cover the lost trips — it is worth checking what drivers earn
+per hour, not per trip.
+
+### What this data cannot answer
+
+This analysis shows what changed, not why. It cannot say if riders moved to
+Flex Fare, to Uber, or just travelled less. Answering that would need Flex Fare
+data, competitor data, or external sources like airport passenger numbers.
 
 ## Assumptions & Limitations
 
